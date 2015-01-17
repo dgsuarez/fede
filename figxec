@@ -5,19 +5,22 @@ import os
 import re
 from distutils import spawn
 
+def docker_path():
+  return spawn.find_executable("docker")
+
 def docker_ps():
-  return os.popen("docker ps").read().split("\n")[1:]
+  cmd = docker_path() + " ps"
+  return os.popen(cmd).read().split("\n")[1:]
 
 def filter_container(name):
   container_names = [l.split()[-1] for l in docker_ps() if len(l) > 0]
   return [container for container in container_names if re.search(name, container)][0]
 
-def build_docker_execv_params(container_name, docker_opts, exec_params):
+def docker_execv_params(container_name, docker_opts, exec_params):
   params = ["docker", "exec", docker_opts, container_name] + exec_params
   return [x for x in params if x]
 
 def figxec():
-  docker = spawn.find_executable("docker")
   if sys.argv[1].startswith("-"):
     container_idx = 2
     docker_opts = sys.argv[1]
@@ -26,7 +29,7 @@ def figxec():
     docker_opts = None
   params_start = container_idx + 1
   container = filter_container(sys.argv[container_idx])
-  params = build_docker_execv_params(container, docker_opts, sys.argv[params_start:])
-  os.execv(docker, params)
+  params = docker_execv_params(container, docker_opts, sys.argv[params_start:])
+  os.execv(docker_path(), params)
 
 figxec()

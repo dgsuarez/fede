@@ -5,5 +5,6 @@ setup(name='figxec',
   description='simple docker exec',
   author='Diego Guerra',
   author_email='diego.guerra.suarez@gmail.com',
+  py_modules=['fede_exec'],
   scripts=['figxec']
   )

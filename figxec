@@ -14,7 +14,11 @@ def docker_ps():
 
 def filter_container(name):
   container_names = [l.split()[-1] for l in docker_ps() if len(l) > 0]
-  return [container for container in container_names if re.search(name, container)][0]
+  matching_containers = [container for container in container_names if re.search(name, container)]
+  if len(matching_containers) == 0:
+    print "No container matching " + name
+    sys.exit(1)
+  return matching_containers[0]
 
 def docker_execv_params(container_name, docker_opts, exec_params):
   params = ["docker", "exec", docker_opts, container_name] + exec_params

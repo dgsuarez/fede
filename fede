@@ -2,6 +2,11 @@
 
 import sys
 from fede_exec import fede_exec
+from fede_stub import fede_stub
 
-print sys.argv
-fede_exec(sys.argv)
+if sys.argv[1] == "exec":
+  fede_exec(sys.argv[1:])
+elif sys.argv[1] == "stub":
+  fede_stub(sys.argv[2:])
+else:
+  print "Not supported"

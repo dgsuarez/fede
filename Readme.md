@@ -1,13 +1,13 @@
 Figxec
 ======
 
-Easily run command on your running docker containers.
+Easily run commands on your running docker containers.
 
 Usage
 -----
 
 ~~~
-figxec [docker exec params] container-name-regex command params
+figxec [docker-exec-params] container-name-regex command [params]
 ~~~
 
 So, for one off commands:

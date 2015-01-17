@@ -26,11 +26,11 @@ def docker_execv_params(container_name, docker_opts, exec_params):
   return [x for x in params if x]
 
 def fede_exec(args):
-  if args[1].startswith("-"):
-    container_idx = 2
-    docker_opts = args[1]
-  else:
+  if args[0].startswith("-"):
     container_idx = 1
+    docker_opts = args[0]
+  else:
+    container_idx = 0
     docker_opts = None
   params_start = container_idx + 1
   container = detect_container(args[container_idx])

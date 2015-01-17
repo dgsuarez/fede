@@ -5,7 +5,7 @@ from fede_exec import fede_exec
 from fede_stub import fede_stub
 
 if sys.argv[1] == "exec":
-  fede_exec(sys.argv[1:])
+  fede_exec(sys.argv[2:])
 elif sys.argv[1] == "stub":
   fede_stub(sys.argv[2:])
 else:

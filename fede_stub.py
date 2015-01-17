@@ -16,7 +16,7 @@ def stub_content(args):
   return """
   #! /bin/sh
 
-  %s
+  %s "$@"
 
   """ % (command,)
 

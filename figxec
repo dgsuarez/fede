@@ -24,16 +24,16 @@ def docker_execv_params(container_name, docker_opts, exec_params):
   params = ["docker", "exec", docker_opts, container_name] + exec_params
   return [x for x in params if x]
 
-def figxec():
-  if sys.argv[1].startswith("-"):
+def figxec(args):
+  if args[1].startswith("-"):
     container_idx = 2
-    docker_opts = sys.argv[1]
+    docker_opts = args[1]
   else:
     container_idx = 1
     docker_opts = None
   params_start = container_idx + 1
-  container = filter_container(sys.argv[container_idx])
-  params = docker_execv_params(container, docker_opts, sys.argv[params_start:])
+  container = filter_container(args[container_idx])
+  params = docker_execv_params(container, docker_opts, args[params_start:])
   os.execv(docker_path(), params)
 
-figxec()
+figxec(sys.argv)

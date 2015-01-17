@@ -12,11 +12,22 @@ def filter_container(name):
   container_names = [l.split()[-1] for l in docker_ps() if len(l) > 0]
   return [container for container in container_names if re.search(name, container)][0]
 
+def build_docker_execv_params(container_name, docker_opts, exec_params):
+  params = ["docker", "exec", docker_opts, container_name] + exec_params
+  return [x for x in params if x]
+
 def figexec():
   docker = spawn.find_executable("docker")
-  container = filter_container(sys.argv[1])
-  params = ["docker", "exec", container] + sys.argv[2:]
+  if sys.argv[1].startswith("-"):
+    container_idx = 2
+    docker_opts = sys.argv[1]
+  else:
+    container_idx = 1
+    docker_opts = None
+  params_start = container_idx + 1
+  container = filter_container(sys.argv[container_idx])
+  params = build_docker_execv_params(container, docker_opts, sys.argv[params_start:])
+  print params
   os.execv(docker, params)
-
 
 figexec()
